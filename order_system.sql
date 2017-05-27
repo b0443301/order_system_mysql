@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2017-05-26 05:52:50
+-- 產生時間： 2017-05-27 07:55:52
 -- 伺服器版本: 10.1.22-MariaDB
 -- PHP 版本： 7.1.4
 
@@ -33,6 +33,13 @@ CREATE TABLE `global` (
   `version` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- 資料表的匯出資料 `global`
+--
+
+INSERT INTO `global` (`id`, `version`) VALUES
+(1, 'v1.0');
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +56,13 @@ CREATE TABLE `register` (
   `telephone` text NOT NULL,
   `address` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `register`
+--
+
+INSERT INTO `register` (`id`, `account`, `password`, `random`, `mail`, `username`, `telephone`, `address`) VALUES
+(1, 'admin', '12345', '0', '0', '0', '0', '0');
 
 --
 -- 已匯出資料表的索引
@@ -79,7 +93,7 @@ ALTER TABLE `global`
 -- 使用資料表 AUTO_INCREMENT `register`
 --
 ALTER TABLE `register`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
