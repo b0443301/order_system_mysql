@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2017-05-27 07:55:52
+-- 產生時間： 2017-05-31 13:04:39
 -- 伺服器版本: 10.1.22-MariaDB
 -- PHP 版本： 7.1.4
 
@@ -25,11 +25,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `feeder`
+--
+
+CREATE TABLE `feeder` (
+  `fid` int(11) NOT NULL,
+  `rid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `feeder`
+--
+
+INSERT INTO `feeder` (`fid`, `rid`, `sid`) VALUES
+(1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `global`
 --
 
 CREATE TABLE `global` (
-  `id` int(11) NOT NULL,
+  `gid` int(11) NOT NULL,
   `version` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,8 +56,28 @@ CREATE TABLE `global` (
 -- 資料表的匯出資料 `global`
 --
 
-INSERT INTO `global` (`id`, `version`) VALUES
+INSERT INTO `global` (`gid`, `version`) VALUES
 (1, 'v1.0');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `item`
+--
+
+CREATE TABLE `item` (
+  `itemid` int(11) NOT NULL,
+  `itemname` text NOT NULL,
+  `itemprice` int(11) NOT NULL,
+  `sid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `item`
+--
+
+INSERT INTO `item` (`itemid`, `itemname`, `itemprice`, `sid`) VALUES
+(1, 'adminitem', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -47,7 +86,7 @@ INSERT INTO `global` (`id`, `version`) VALUES
 --
 
 CREATE TABLE `register` (
-  `id` int(11) NOT NULL,
+  `rid` int(11) NOT NULL,
   `account` text NOT NULL,
   `password` text NOT NULL,
   `random` text NOT NULL,
@@ -61,39 +100,120 @@ CREATE TABLE `register` (
 -- 資料表的匯出資料 `register`
 --
 
-INSERT INTO `register` (`id`, `account`, `password`, `random`, `mail`, `username`, `telephone`, `address`) VALUES
-(1, 'admin', '12345', '0', '0', '0', '0', '0');
+INSERT INTO `register` (`rid`, `account`, `password`, `random`, `mail`, `username`, `telephone`, `address`) VALUES
+(1, 'admin', '12345', '0', 'admin', 'admin', '12345', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `store`
+--
+
+CREATE TABLE `store` (
+  `sid` int(11) NOT NULL,
+  `storename` text NOT NULL,
+  `telephone` text NOT NULL,
+  `address` text NOT NULL,
+  `rid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `store`
+--
+
+INSERT INTO `store` (`sid`, `storename`, `telephone`, `address`, `rid`) VALUES
+(1, '123fufmdrf', '123', '123', 1);
 
 --
 -- 已匯出資料表的索引
 --
 
 --
+-- 資料表索引 `feeder`
+--
+ALTER TABLE `feeder`
+  ADD PRIMARY KEY (`fid`),
+  ADD KEY `rid` (`rid`),
+  ADD KEY `sid` (`sid`);
+
+--
 -- 資料表索引 `global`
 --
 ALTER TABLE `global`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`gid`);
+
+--
+-- 資料表索引 `item`
+--
+ALTER TABLE `item`
+  ADD PRIMARY KEY (`itemid`),
+  ADD KEY `sid` (`sid`);
 
 --
 -- 資料表索引 `register`
 --
 ALTER TABLE `register`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`rid`);
+
+--
+-- 資料表索引 `store`
+--
+ALTER TABLE `store`
+  ADD PRIMARY KEY (`sid`),
+  ADD KEY `rid` (`rid`);
 
 --
 -- 在匯出的資料表使用 AUTO_INCREMENT
 --
 
 --
+-- 使用資料表 AUTO_INCREMENT `feeder`
+--
+ALTER TABLE `feeder`
+  MODIFY `fid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- 使用資料表 AUTO_INCREMENT `global`
 --
 ALTER TABLE `global`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `gid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- 使用資料表 AUTO_INCREMENT `item`
+--
+ALTER TABLE `item`
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- 使用資料表 AUTO_INCREMENT `register`
 --
 ALTER TABLE `register`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- 使用資料表 AUTO_INCREMENT `store`
+--
+ALTER TABLE `store`
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- 已匯出資料表的限制(Constraint)
+--
+
+--
+-- 資料表的 Constraints `feeder`
+--
+ALTER TABLE `feeder`
+  ADD CONSTRAINT `feeder_ibfk_1` FOREIGN KEY (`rid`) REFERENCES `register` (`rid`),
+  ADD CONSTRAINT `feeder_ibfk_2` FOREIGN KEY (`sid`) REFERENCES `store` (`sid`);
+
+--
+-- 資料表的 Constraints `item`
+--
+ALTER TABLE `item`
+  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `store` (`sid`);
+
+--
+-- 資料表的 Constraints `store`
+--
+ALTER TABLE `store`
+  ADD CONSTRAINT `store_ibfk_1` FOREIGN KEY (`rid`) REFERENCES `register` (`rid`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
