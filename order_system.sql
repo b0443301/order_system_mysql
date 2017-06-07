@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2017-05-31 13:04:39
+-- 產生時間： 2017-06-07 11:11:10
 -- 伺服器版本: 10.1.22-MariaDB
 -- PHP 版本： 7.1.4
 
@@ -25,6 +25,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `dinner`
+--
+
+CREATE TABLE `dinner` (
+  `did` int(11) NOT NULL,
+  `rid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `itemid` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `success` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `feeder`
 --
 
@@ -33,13 +48,6 @@ CREATE TABLE `feeder` (
   `rid` int(11) NOT NULL,
   `sid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- 資料表的匯出資料 `feeder`
---
-
-INSERT INTO `feeder` (`fid`, `rid`, `sid`) VALUES
-(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -77,7 +85,9 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`itemid`, `itemname`, `itemprice`, `sid`) VALUES
-(1, 'adminitem', 100, 1);
+(16, '123', 123, 4),
+(17, '456', 456, 4),
+(18, '789', 789, 4);
 
 -- --------------------------------------------------------
 
@@ -101,7 +111,7 @@ CREATE TABLE `register` (
 --
 
 INSERT INTO `register` (`rid`, `account`, `password`, `random`, `mail`, `username`, `telephone`, `address`) VALUES
-(1, 'admin', '12345', '0', 'admin', 'admin', '12345', 'admin');
+(23, 'admin', '12345', '0', '12345', '12345', '12345', '12345');
 
 -- --------------------------------------------------------
 
@@ -122,11 +132,20 @@ CREATE TABLE `store` (
 --
 
 INSERT INTO `store` (`sid`, `storename`, `telephone`, `address`, `rid`) VALUES
-(1, '123fufmdrf', '123', '123', 1);
+(4, '123', '123', '123', 23);
 
 --
 -- 已匯出資料表的索引
 --
+
+--
+-- 資料表索引 `dinner`
+--
+ALTER TABLE `dinner`
+  ADD PRIMARY KEY (`did`),
+  ADD KEY `rid` (`rid`),
+  ADD KEY `sid` (`sid`),
+  ADD KEY `itemid` (`itemid`);
 
 --
 -- 資料表索引 `feeder`
@@ -167,10 +186,15 @@ ALTER TABLE `store`
 --
 
 --
+-- 使用資料表 AUTO_INCREMENT `dinner`
+--
+ALTER TABLE `dinner`
+  MODIFY `did` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+--
 -- 使用資料表 AUTO_INCREMENT `feeder`
 --
 ALTER TABLE `feeder`
-  MODIFY `fid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `fid` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- 使用資料表 AUTO_INCREMENT `global`
 --
@@ -180,20 +204,28 @@ ALTER TABLE `global`
 -- 使用資料表 AUTO_INCREMENT `item`
 --
 ALTER TABLE `item`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- 使用資料表 AUTO_INCREMENT `register`
 --
 ALTER TABLE `register`
-  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- 使用資料表 AUTO_INCREMENT `store`
 --
 ALTER TABLE `store`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- 已匯出資料表的限制(Constraint)
 --
+
+--
+-- 資料表的 Constraints `dinner`
+--
+ALTER TABLE `dinner`
+  ADD CONSTRAINT `dinner_ibfk_1` FOREIGN KEY (`rid`) REFERENCES `register` (`rid`),
+  ADD CONSTRAINT `dinner_ibfk_2` FOREIGN KEY (`sid`) REFERENCES `store` (`sid`),
+  ADD CONSTRAINT `dinner_ibfk_4` FOREIGN KEY (`itemid`) REFERENCES `item` (`itemid`);
 
 --
 -- 資料表的 Constraints `feeder`
